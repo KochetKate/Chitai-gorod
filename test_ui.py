@@ -6,10 +6,10 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
-from pages.search_page import SearchPage
-from pages.cart_page import AddToCart
-from pages.auth_page import AuthPage
-from config import (book_title, invalid_title, phone, invalid_phone)
+from pages.search_ui_page import SearchPage
+from pages.cart_ui_page import AddToCart
+from pages.auth_ui_page import AuthPage
+from config import (url_ui, book_title, invalid_title, phone, invalid_phone)
 
 
 @allure.epic("Читай-город")
@@ -22,7 +22,7 @@ def driver():
     """
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     driver.maximize_window()
-    driver.get("https://www.chitai-gorod.ru/")
+    driver.get(url_ui)
     yield driver
     driver.quit()
 
@@ -56,7 +56,7 @@ def test_search_by_title(driver):
 def test_search_by_invalid_title(driver):
     """
     Тест поиска книги по несуществующему названию.
-    
+
     :param driver: WebDriver instance
     :type driver: WebDriver
     :return: None
@@ -84,20 +84,20 @@ def test_search_by_invalid_title(driver):
 def test_add_product_to_cart(driver):
     """
     Тест добавления товара в корзину.
-    
+
     :param driver: WebDriver instance
     :type driver: WebDriver
     :return: None
     """
     search = SearchPage(driver)
     cart = AddToCart(driver)
-    
+
     with allure.step("Найти книгу по названию"):
         search.search_by_title(book_title)
 
     with allure.step("Нажать на кнопку 'Купить'"):
         cart.add_product_to_cart()
-    
+
     with allure.step("Проверяем, что товар добавлен в корзину"):
         count = driver.find_element(
             By.CSS_SELECTOR, ".header-controls__btn .chg-indicator"
@@ -107,19 +107,19 @@ def test_add_product_to_cart(driver):
 
 @allure.feature("Корзина")
 @allure.title("Удаление товара из корзины. POSITIVE")
-@allure.description("Тест проверяет, что товар из корзины удаляется корректно.")
+@allure.description("Тест проверяет, что товар из корзины удаляется корректно")
 @allure.severity("CRITICAL")
 def test_delete_from_cart(driver):
     """
     Тест удаления товара из корзины.
-    
+
     :param driver: WebDriver instance
     :type driver: WebDriver
     :return: None
     """
     search = SearchPage(driver)
     cart = AddToCart(driver)
-    
+
     with allure.step("Найти книгу по названию"):
         search.search_by_title(book_title)
 
@@ -128,10 +128,10 @@ def test_delete_from_cart(driver):
 
     with allure.step("Открыть корзину"):
         cart.open_cart()
-    
+
     with allure.step("Удалить товар из корзины"):
         cart.delete_from_cart()
-    
+
     with allure.step("Проверить, что товар удален"):
         wait = WebDriverWait(driver, 10)
         deleted_message = wait.until(
@@ -150,7 +150,7 @@ def test_delete_from_cart(driver):
 def test_auth_form(driver):
     """
     Тест активации кнопки 'Получить код' при корректном номере телефона.
-    
+
     :param driver: WebDriver instance
     :type driver: WebDriver
     :return: None
@@ -186,7 +186,7 @@ def test_auth_form(driver):
 def test_auth_form_invalid_phone(driver):
     """
     Тест активации кнопки 'Получить код' при некорректном номере телефона.
-    
+
     :param driver: WebDriver instance
     :type driver: WebDriver
     :return: None
