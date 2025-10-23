@@ -12,7 +12,6 @@ from pages.auth_ui_page import AuthPage
 from config import (url_ui, book_title, invalid_title, phone, invalid_phone)
 
 
-@allure.epic("Читай-город")
 @pytest.fixture
 def driver():
     """
@@ -27,6 +26,7 @@ def driver():
     driver.quit()
 
 
+@allure.epic("Читай-город")
 @allure.feature("Поиск товаров")
 @allure.title("Поиск книги по названию. POSITIVE")
 @allure.description("Тест проверяет, что поиск книг работает корректно.")
@@ -48,12 +48,13 @@ def test_search_by_title(driver):
         assert book_title.lower() in page_text
 
 
+@allure.epic("Читай-город")
 @allure.feature("Поиск товаров")
 @allure.title("Поиск книги по несуществующему названию. NEGATIVE")
 @allure.description("Тест проверяет, что поиск по несуществующему названию "
                     "возвращает корректный результат.")
 @allure.severity("NORMAL")
-def test_search_by_invalid_title(driver):
+def test_search_negative(driver):
     """
     Тест поиска книги по несуществующему названию.
 
@@ -64,7 +65,7 @@ def test_search_by_invalid_title(driver):
     search = SearchPage(driver)
 
     with allure.step("Найти книгу по несуществующему названию"):
-        search.search_by_title(invalid_title)
+        search.search_negative(invalid_title)
 
     with allure.step("Проверить, что поиск не дал результатов"):
         wait = WebDriverWait(driver, 10)
@@ -76,6 +77,7 @@ def test_search_by_invalid_title(driver):
         assert error_message.text == "Похоже, у нас такого нет"
 
 
+@allure.epic("Читай-город")
 @allure.feature("Корзина")
 @allure.title("Добавление товара в корзину. POSITIVE")
 @allure.description("Тест проверяет, что добавление товара в корзину "
@@ -105,6 +107,7 @@ def test_add_product_to_cart(driver):
         print(f"✓ Товар добавлен в корзину. Количество: {count}")
 
 
+@allure.epic("Читай-город")
 @allure.feature("Корзина")
 @allure.title("Удаление товара из корзины. POSITIVE")
 @allure.description("Тест проверяет, что товар из корзины удаляется корректно")
@@ -142,6 +145,7 @@ def test_delete_from_cart(driver):
         assert deleted_message.text == "Удалили товар из корзины"
 
 
+@allure.epic("Читай-город")
 @allure.feature("Авторизация")
 @allure.title("Активация кнопки 'Получить код' при вводе номера. POSITIVE")
 @allure.description("Тест проверяет, что кнопка 'Получить код' активируется "
@@ -177,6 +181,7 @@ def test_auth_form(driver):
         assert get_code_btn.get_attribute("disabled") is None
 
 
+@allure.epic("Читай-город")
 @allure.feature("Авторизация")
 @allure.title("Активация кнопки 'Получить код' с некорректным номером. "
               "NEGATIVE")

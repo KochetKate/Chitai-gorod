@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -66,4 +67,25 @@ class SearchPage:
         # Ожидание появления заголовков товаров
         self.wait.until(
             EC.presence_of_all_elements_located(self.product_titles)
+        )
+
+    def search_negative(self, book_title: str) -> None:
+        """
+        Выполнить поиск по несуществующему названию.
+        :param book_title: название книги для поиска (str)
+        :return: None
+        """
+        search_input = self.wait.until(
+            EC.element_to_be_clickable(self.search)
+        )
+        search_input.clear()
+        search_input.send_keys(book_title)
+
+        search_input.send_keys(Keys.ENTER)
+
+        # Ожидание полной загрузки страницы
+        WebDriverWait(self.driver, 10).until(
+            lambda d: d.execute_script(
+                "return document.readyState"
+            ) == "complete"
         )
