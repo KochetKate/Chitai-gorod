@@ -41,7 +41,7 @@ Python
 Requests (для выполнения API-запросов)
 Allure (для тестирования и отчетности)
 Установка
-Клонируйте репозиторий: git clone (выгрузить ссылку из гитхаб)
+Клонируйте репозиторий: git clone (https://github.com/KochetKate/Chitai-gorod.git)
 
 Перейдите в каталог проекта Chitai-gorod
 
