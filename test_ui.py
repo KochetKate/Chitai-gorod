@@ -9,7 +9,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from pages.search_ui_page import SearchPage
 from pages.cart_ui_page import AddToCart
 from pages.auth_ui_page import AuthPage
-from config import (url_ui, book_title, invalid_title, phone, invalid_phone)
+from config import url_ui, book_title, invalid_title, phone, invalid_phone
 
 
 @pytest.fixture
@@ -31,6 +31,8 @@ def driver():
 @allure.title("Поиск книги по названию. POSITIVE")
 @allure.description("Тест проверяет, что поиск книг работает корректно.")
 @allure.severity("CRITICAL")
+@pytest.mark.ui
+@pytest.mark.search
 def test_search_by_title(driver):
     """
     Тест поиска книги по существующему названию.
@@ -54,6 +56,8 @@ def test_search_by_title(driver):
 @allure.description("Тест проверяет, что поиск по несуществующему названию "
                     "возвращает корректный результат.")
 @allure.severity("NORMAL")
+@pytest.mark.ui
+@pytest.mark.search
 def test_search_negative(driver):
     """
     Тест поиска книги по несуществующему названию.
@@ -83,6 +87,8 @@ def test_search_negative(driver):
 @allure.description("Тест проверяет, что добавление товара в корзину "
                     "работает корректно.")
 @allure.severity("CRITICAL")
+@pytest.mark.ui
+@pytest.mark.cart
 def test_add_product_to_cart(driver):
     """
     Тест добавления товара в корзину.
@@ -112,6 +118,8 @@ def test_add_product_to_cart(driver):
 @allure.title("Удаление товара из корзины. POSITIVE")
 @allure.description("Тест проверяет, что товар из корзины удаляется корректно")
 @allure.severity("CRITICAL")
+@pytest.mark.ui
+@pytest.mark.cart
 def test_delete_from_cart(driver):
     """
     Тест удаления товара из корзины.
@@ -151,6 +159,8 @@ def test_delete_from_cart(driver):
 @allure.description("Тест проверяет, что кнопка 'Получить код' активируется "
                     "только при корректном номере телефона.")
 @allure.severity("CRITICAL")
+@pytest.mark.ui
+@pytest.mark.auth
 def test_auth_form(driver):
     """
     Тест активации кнопки 'Получить код' при корректном номере телефона.
@@ -188,6 +198,8 @@ def test_auth_form(driver):
 @allure.description("Тест проверяет, что кнопка 'Получить код' не "
                     "активируется при неправильном номере телефона.")
 @allure.severity("NORMAL")
+@pytest.mark.ui
+@pytest.mark.auth
 def test_auth_form_invalid_phone(driver):
     """
     Тест активации кнопки 'Получить код' при некорректном номере телефона.

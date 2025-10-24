@@ -78,7 +78,7 @@ class CartAPI:
         resp = self.session.get(self.base_url)
         return resp
 
-    def remove_product_from_cart(self, cart_product_id: int) -> requests.Response:
+    def remove_from_cart(self, cart_product_id: int) -> requests.Response:
         """
         Удалить товар из корзины.
 

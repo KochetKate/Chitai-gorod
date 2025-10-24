@@ -20,6 +20,8 @@ def api_client() -> CartAPI:
 @allure.title("Добавление товара в корзину. POSITIVE")
 @allure.description("Тест проверяет добавление товара в корзину через API.")
 @allure.severity("CRITICAL")
+@pytest.mark.api
+@pytest.mark.cart
 def test_add_product_to_cart(api_client: CartAPI) -> None:
     """
     Тест добавления товара в корзину.
@@ -40,6 +42,8 @@ def test_add_product_to_cart(api_client: CartAPI) -> None:
 @allure.title("Просмотр корзины. POSITIVE")
 @allure.description("Тест проверяет получение содержимого корзины.")
 @allure.severity("NORMAL")
+@pytest.mark.api
+@pytest.mark.cart
 def test_get_cart(api_client: CartAPI) -> None:
     """
     Тест получения содержимого корзины.
@@ -63,6 +67,8 @@ def test_get_cart(api_client: CartAPI) -> None:
 @allure.title("Удаление товара из корзины. POSITIVE")
 @allure.description("Тест проверяет удаление товара из корзины.")
 @allure.severity("CRITICAL")
+@pytest.mark.api
+@pytest.mark.cart
 def test_remove_product_from_cart(api_client: CartAPI) -> None:
     """
     Тест удаления товара из корзины.
@@ -86,7 +92,7 @@ def test_remove_product_from_cart(api_client: CartAPI) -> None:
         cart_product_id = cart_data["products"][0]["id"]
 
     with allure.step("Удалить товар из корзины"):
-        result = api_client.remove_product_from_cart(cart_product_id)
+        result = api_client.remove_from_cart(cart_product_id)
 
     with allure.step("Проверить успешное удаление"):
         assert result.status_code == 204
@@ -103,6 +109,8 @@ def test_remove_product_from_cart(api_client: CartAPI) -> None:
 @allure.title("Добавление товара без ID в корзину. NEGATIVE")
 @allure.description("Тест проверяет ошибку при добавлении товара без ID")
 @allure.severity("NORMAL")
+@pytest.mark.api
+@pytest.mark.negative
 def test_add_product_without_id(api_client: CartAPI) -> None:
     """
     Негативный тест: добавление товара без ID.
@@ -123,6 +131,8 @@ def test_add_product_without_id(api_client: CartAPI) -> None:
 @allure.title("Просмотр корзины с неправильным методом. NEGATIVE")
 @allure.description("Тест проверяет ошибку метода для просмотра корзины.")
 @allure.severity("NORMAL")
+@pytest.mark.api
+@pytest.mark.negative
 def test_get_cart_with_wrong_method(api_client: CartAPI) -> None:
     """
     Негативный тест: просмотр корзины с неправильным методом.

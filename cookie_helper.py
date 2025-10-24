@@ -1,5 +1,6 @@
 import requests
 
+
 def get_fresh_cookies() -> dict:
     """
     Получить свежие куки через API запрос
@@ -23,6 +24,6 @@ def get_fresh_cookies() -> dict:
 
         return cookies_dict
 
-    except Exception as e:
+    except Exception:
         # Fallback на случай ошибки
         return {'__ddg1': 'fallback_cookie_value'}
